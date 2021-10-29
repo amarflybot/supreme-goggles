@@ -36,26 +36,26 @@ $ npm install
 
 ```bash
 # development
-$ npm run start
+$ docker-compose up dev
 
 # watch mode
-$ npm run start:dev
+$ docker-compose run --rm dev npm run start:dev
 
 # production mode
-$ npm run start:prod
+$ docker-compose up prod
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
+$ docker-compose run --rm dev npm run test
 
 # e2e tests
-$ npm run test:e2e
+$ docker-compose run --rm dev npm run test:e2e
 
 # test coverage
-$ npm run test:cov
+$ docker-compose run --rm dev npm run test:cov
 ```
 
 ## Support
