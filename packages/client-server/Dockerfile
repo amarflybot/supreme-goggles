@@ -3,14 +3,17 @@ FROM node:12.19.0-alpine3.9 AS development
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+COPY pnpm-lock.yaml ./
 
-RUN npm install glob rimraf
+RUN npm i -g pnpm
 
-RUN npm install --only=development
+RUN pnpm install glob rimraf
+
+RUN pnpm install --only=development
 
 COPY . .
 
-RUN npm run build
+RUN pnpm run build
 
 FROM node:12.19.0-alpine3.9 as production
 

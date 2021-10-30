@@ -1,38 +1,50 @@
 version: '3.8'
 
 services:
-    dev:
-        container_name: api_dev
-        image: api-dev:1.0.0
+    build:
+        container_name: build
         build:
             context: .
-            target: development
-            dockerfile: ./Dockerfile
-        command: npm run start:debug
-        ports:
-            - 3000:3000
-            - 9229:9229
-        networks:
-            - nesjs-network
+        command: pnpm i
         volumes:
             - .:/usr/src/app
             - /usr/src/app/node_modules
         restart: unless-stopped
-    prod:
-        container_name: api_prod
-        image: api-prod:1.0.0
+        networks:
+            - nesjs-network
+    client_dev:
+        container_name: client_dev
+        image: client-dev:1.0.0
         build:
-            context: .
-            target: production
+            context: ./packages/client-server/
+            target: development
             dockerfile: ./Dockerfile
-        command: npm run start:prod
+        command: pnpm run start:debug
         ports:
             - 3000:3000
             - 9229:9229
         networks:
             - nesjs-network
         volumes:
-            - .:/usr/src/app
+            - ./packages/client-server:/usr/src/app
+            - /usr/src/app/node_modules
+        restart: unless-stopped
+
+    resource_dev:
+        container_name: resource_dev
+        image: resource-dev:1.0.0
+        build:
+            context: ./packages/resource-server/
+            target: development
+            dockerfile: ./Dockerfile
+        command: pnpm run start:debug
+        ports:
+            - 3001:3000
+            - 9230:9229
+        networks:
+            - nesjs-network
+        volumes:
+            - ./packages/resource-server/:/usr/src/app
             - /usr/src/app/node_modules
         restart: unless-stopped
 

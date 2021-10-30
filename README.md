@@ -11,27 +11,24 @@ $ npm install
 ## Running the app
 
 ```bash
-# development
-$ docker-compose up dev
+# development and watch mode
+$ docker-compose up
 
-# watch mode
-$ docker-compose run --rm dev npm run start:dev
-
-# production mode
-$ docker-compose up prod
+## production mode
+#$ docker-compose up prod
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ docker-compose run --rm dev npm run test
+$ docker-compose run --rm client_dev npm run test
 
 # e2e tests
-$ docker-compose run --rm dev npm run test:e2e
+$ docker-compose run --rm client_dev npm run test:e2e
 
 # test coverage
-$ docker-compose run --rm dev npm run test:cov
+$ docker-compose run --rm client_dev npm run test:cov
 ```
 
 ## Commit
