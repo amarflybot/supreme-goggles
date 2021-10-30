@@ -57,6 +57,13 @@ $ docker-compose run --rm dev npm run test:e2e
 # test coverage
 $ docker-compose run --rm dev npm run test:cov
 ```
+
+## Commit
+I have used husky to safe guard.
+Use the following command to commit
+```bash
+npm run cz
+```
 ## Stay in touch
 
 - Author - [Amarendra Kumar](https://www.linkedin.com/in/amarendra-kumar-25117217/)
