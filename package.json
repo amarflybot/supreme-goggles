@@ -15,10 +15,10 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" \"{src,apps,libs,test}/**/*.js\" --fix",
-    "test": "jest",
+    "test": "jest --config ./jest.json",
     "test:watch": "jest --config ./jest.json --watchAll",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:cov": "jest --config ./jest.json --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --config ./jest.json --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "cz": "git-cz"
   },
