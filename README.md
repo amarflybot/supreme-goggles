@@ -12,6 +12,7 @@ $ npm install
 
 ```bash
 # development and watch mode
+$ docker-compose build
 $ docker-compose up
 
 ## production mode
