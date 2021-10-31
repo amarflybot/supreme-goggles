@@ -1,17 +1,20 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { BasketService } from './basket.service';
 import { CreateBasketDto } from './dto/create-basket.dto';
-import { UpdateBasketDto } from './dto/update-basket.dto';
+import { UpdateBasketWithFruitDto } from './dto/update-basket.dto';
+import { HttpInterceptor } from '../http.interceptor';
 
 @Controller('basket')
+@UseInterceptors(HttpInterceptor)
 export class BasketController {
   constructor(private readonly basketService: BasketService) {}
 
@@ -22,7 +25,12 @@ export class BasketController {
 
   @Get()
   findAll() {
-    return this.basketService.findAll();
+    return JSON.stringify(this.basketService.findAll());
+  }
+
+  @Get('/fruits')
+  findAllFruits() {
+    return this.basketService.findAllFruits();
   }
 
   @Get(':id')
@@ -31,8 +39,11 @@ export class BasketController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBasketDto: UpdateBasketDto) {
-    return this.basketService.update(+id, updateBasketDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateBasketDto: UpdateBasketWithFruitDto,
+  ) {
+    return this.basketService.addFruitsInBasket(+id, updateBasketDto);
   }
 
   @Delete(':id')

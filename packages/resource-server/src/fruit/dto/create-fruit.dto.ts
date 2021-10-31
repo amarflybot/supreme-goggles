@@ -1,3 +1,3 @@
 export class CreateFruitDto {
-  private name: string;
+  name: string;
 }

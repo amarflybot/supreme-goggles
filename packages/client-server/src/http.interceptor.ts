@@ -6,12 +6,10 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
-import * as oauth from 'axios-oauth-client';
-import axios from 'axios';
-import { OktaService } from './okta.service';
+import { OktaService } from './shared/okta.service';
 
 @Injectable()
-export class OktaInterceptor implements NestInterceptor {
+export class HttpInterceptor implements NestInterceptor {
   constructor(
     private httpService: HttpService,
     private oktaService: OktaService,

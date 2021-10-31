@@ -3,12 +3,12 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BasketModule } from './basket/basket.module';
-import { OktaService } from './okta/okta.service';
-import { ScheduleModule } from '@nestjs/schedule';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { SharedModule } from './shared/shared.module';
 
 @Module({
-  imports: [BasketModule, HttpModule, ScheduleModule.forRoot()],
+  imports: [ConfigModule.forRoot(), HttpModule, BasketModule, SharedModule],
   controllers: [AppController],
-  providers: [AppService, OktaService],
+  providers: [AppService, ConfigService],
 })
 export class AppModule {}

@@ -21,7 +21,7 @@ export class OktaService {
       grant_type: 'client_credentials',
       client_id: '0oa53ehmxXxEq9z2Y696',
       client_secret: '2l4nYiKwGymLJWXkfcq8Pmn91OIHP8iR-8HU4ylb',
-      scope: 'read:hello',
+      scope: 'read:hello query:fruit',
     })();
     return this.clientCredentials;
   }

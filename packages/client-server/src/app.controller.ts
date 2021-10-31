@@ -3,10 +3,10 @@ import { AppService } from './app.service';
 import { Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { HelloDto } from './hello.dto';
-import { OktaInterceptor } from './okta/okta.interceptor';
+import { HttpInterceptor } from './http.interceptor';
 
 @Controller()
-@UseInterceptors(OktaInterceptor)
+@UseInterceptors(HttpInterceptor)
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
