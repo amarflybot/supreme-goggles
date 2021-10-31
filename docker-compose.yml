@@ -21,13 +21,14 @@ services:
             dockerfile: ./Dockerfile
         command: pnpm run start:debug
         ports:
-            - 3002:3000
-            - 9229:9229
+            - 3002:3002
         networks:
             - nesjs-network
         volumes:
             - ./packages/client-server:/usr/src/app
             - /usr/src/app/node_modules
+        environment:
+            - APP_PORT=3002
         restart: unless-stopped
 
     resource_dev:
@@ -39,8 +40,7 @@ services:
             dockerfile: ./Dockerfile
         command: pnpm run start:debug
         ports:
-            - 3001:3000
-            - 9230:9229
+            - 3001:3001
         networks:
             - nesjs-network
         volumes:
@@ -48,6 +48,7 @@ services:
             - /usr/src/app/node_modules
         environment:
             - ISSUER=https://acmamarflybot.okta.com/oauth2/aus53f2q22BVsNMk8696
+            - APP_PORT=3001
         restart: unless-stopped
 
 networks:

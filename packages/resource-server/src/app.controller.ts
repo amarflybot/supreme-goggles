@@ -19,7 +19,7 @@ export class AppController {
 
   @Get()
   @Scope('read:hello')
-  getHello(): string {
-    return 'from Resource ' + this.appService.getHello();
+  getHello(): any {
+    return { hello: `from Resource ${this.appService.getHello()}` };
   }
 }
