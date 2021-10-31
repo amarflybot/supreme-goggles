@@ -4,6 +4,6 @@ import { BasketController } from './basket.controller';
 
 @Module({
   controllers: [BasketController],
-  providers: [BasketService]
+  providers: [BasketService],
 })
 export class BasketModule {}
