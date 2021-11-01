@@ -1,14 +1,18 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import * as oauth from 'axios-oauth-client';
 import axios from 'axios';
 import { Cron } from '@nestjs/schedule';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class OktaService {
+export class OktaService implements OnModuleInit {
   private clientCredentials;
   private readonly logger = new Logger(OktaService.name);
-  constructor() {
+  constructor(private configService: ConfigService) {}
+
+  onModuleInit() {
     this.clientCredentials = this.getClientCredentials();
+    this.handleCron();
   }
 
   getCredentials() {
@@ -17,10 +21,10 @@ export class OktaService {
 
   async getClientCredentials() {
     this.clientCredentials = await oauth.client(axios.create(), {
-      url: 'https://acmamarflybot.okta.com/oauth2/aus53f2q22BVsNMk8696/v1/token',
+      url: this.configService.get<string>('ISSUER_URL'),
       grant_type: 'client_credentials',
-      client_id: '0oa53ehmxXxEq9z2Y696',
-      client_secret: '2l4nYiKwGymLJWXkfcq8Pmn91OIHP8iR-8HU4ylb',
+      client_id: this.configService.get<string>('CLIENT_CREDENTIAL'),
+      client_secret: this.configService.get<string>('CLIENT_SECRET'),
       scope: 'read:hello query:fruit',
     })();
     return this.clientCredentials;

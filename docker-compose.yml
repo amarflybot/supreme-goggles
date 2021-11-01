@@ -29,6 +29,7 @@ services:
             - /usr/src/app/node_modules
         environment:
             - APP_PORT=3002
+            - RESOURCE_SERVICE=http://resource_dev:3001
         restart: unless-stopped
 
     resource_dev:
