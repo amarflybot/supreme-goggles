@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBasketDto } from './dto/create-basket.dto';
 import { UpdateBasketWithFruitDto } from './dto/update-basket.dto';
 import { Basket, Fruit } from './entities/basket.entity';
 import { FruitService } from './fruit.service';
-import { FruitDto } from './dto/fruit.dto';
+import { map, Observable } from 'rxjs';
 
 @Injectable()
 export class BasketService {
@@ -29,21 +29,37 @@ export class BasketService {
     return this.baskets.find((value) => value.id === id);
   }
 
-  addFruitsInBasket(id: number, updateBasketDto: UpdateBasketWithFruitDto) {
+  addFruitsInBasket(
+    id: number,
+    updateBasketDto: UpdateBasketWithFruitDto,
+  ): Observable<Basket> {
     const basket = this.findOne(id);
-    this.fruitService.findOne(updateBasketDto.fruitId).subscribe((value) => {
-      const fruitDto = value as FruitDto;
-      const fruit = new Fruit(fruitDto.id, fruitDto.name);
-      if (basket.fruits.has(fruit)) {
-        basket.fruits.set(fruit, basket.fruits.get(fruit) + 1);
-      } else {
-        basket.fruits.set(fruit, 1);
-      }
-    });
-    return `This action updates a #${id} basket`;
+    return this.fruitService.findOne(updateBasketDto.fruitId).pipe(
+      map((fruitDto) => {
+        const fruit = new Fruit(fruitDto.id, fruitDto.name);
+        if (basket.fruits.has(fruit)) {
+          basket.fruits.set(fruit, basket.fruits.get(fruit) + 1);
+        } else {
+          basket.fruits.set(fruit, 1);
+        }
+        this.remove(id);
+        this.baskets = [...this.baskets, basket];
+        return this.findOne(id);
+      }),
+    );
   }
 
   remove(id: number) {
+    const findOne = this.findOne(id);
+    if (findOne === undefined) {
+      throw new NotFoundException(`Fruit with id: ${id}`);
+    }
+    this.baskets = this.baskets.reduce((acc: Basket[], curr: Basket) => {
+      if (id !== curr.id) {
+        acc.push(curr);
+      }
+      return acc;
+    }, []);
     return `This action removes a #${id} basket`;
   }
 }

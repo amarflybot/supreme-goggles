@@ -25,7 +25,7 @@ export class BasketController {
 
   @Get()
   findAll() {
-    return JSON.stringify(this.basketService.findAll());
+    return this.basketService.findAll();
   }
 
   @Get('/fruits')
